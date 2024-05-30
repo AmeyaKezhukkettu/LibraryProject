@@ -67,13 +67,25 @@ public class Main {
             System.out.println("Type:");
             String type = input.nextLine();
 
+            System.out.println("Trope:");
+            String trope = input.nextLine();
+
             System.out.println("Author:");
             String author = input.nextLine();
 
             System.out.println("Pages:");
             int numPages = input.nextInt();
 
-            Book myBook = new Book(title, author, type, numPages);
+            Book myBook;
+
+            if(!trope.isEmpty()){
+                myBook = new Fiction(title, author, type, trope, numPages);
+            }
+            else{
+                myBook = new Book(title, author, type, numPages);
+            }
+
+            //Book myBook = new Book(title, author, type, numPages);
             //tbr.add(myBook);
 
             FileWriter fWriter = new FileWriter("C:\\Users\\Ameya\\IdeaProjects\\LibraryProject\\tbr.txt", true);
@@ -88,6 +100,9 @@ public class Main {
             System.out.println("Type:");
             String type = input.nextLine();
 
+            System.out.println("Trope:");
+            String trope = input.nextLine();
+
             System.out.println("Author:");
             String author = input.nextLine();
 
@@ -97,7 +112,18 @@ public class Main {
             System.out.println("Rating:");
             double rating = input.nextFloat();
 
-            Book myBook = new Book(title, author, type, numPages, rating);
+            Book myBook;
+/*
+            if(trope.length()>0){
+                myBook = new Fiction(title, author, type, trope, numPages);
+            }
+            else{
+                myBook = new Book(title, author, type, numPages);
+            }
+
+ */
+
+            myBook = new Fiction(title, author, type, trope, numPages, rating);
 
             getReadRatingsAndPos(myBook, read);
         }
