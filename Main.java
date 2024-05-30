@@ -11,10 +11,10 @@ public class Main {
         //System.out.println("This is my final project!");
         Scanner input = new Scanner(System.in);
 
-        ArrayList<Book> read = new ArrayList<Book>();
-        ArrayList<Book> tbr = new ArrayList<Book>();
-        ArrayList<Book> topTenList = new ArrayList<Book>();
-        Book [] topTen = new Book [10];
+        //ArrayList<Book> read = new ArrayList<Book>();
+        //ArrayList<Book> tbr = new ArrayList<Book>();
+        ArrayList<Double> read = new ArrayList<Double>();
+        //int[] topTen = new int[10];
 
         int userChoice = 0;
         String userAction = "idk";
@@ -74,7 +74,7 @@ public class Main {
             int numPages = input.nextInt();
 
             Book myBook = new Book(title, author, type, numPages);
-            tbr.add(myBook);
+            //tbr.add(myBook);
 
             FileWriter fWriter = new FileWriter("C:\\Users\\Ameya\\IdeaProjects\\LibraryProject\\tbr.txt", true);
             fWriter.write(String.valueOf(myBook) + "\n");
@@ -98,15 +98,8 @@ public class Main {
             double rating = input.nextFloat();
 
             Book myBook = new Book(title, author, type, numPages, rating);
-            read.add(myBook);
 
-            if(myBook.getRating() > topTen[topTen.length-1].getRating()){
-                addToTopTen(myBook, topTenList, topTen);
-            }
-
-            FileWriter fWriter = new FileWriter("C:\\Users\\Ameya\\IdeaProjects\\LibraryProject\\read.txt", true);
-            fWriter.write(String.valueOf(myBook) + "\n");
-            fWriter.close();
+            getReadRatingsAndPos(myBook, read);
         }
         else if(userAction.equals("accessTBR")){
             File file = new File("tbr.txt");
@@ -126,30 +119,32 @@ public class Main {
         }
 
     }
-    public static void addToTopTen(Book newFav, ArrayList<Book> books, Book[] arr) throws IOException {
+    public static void getReadRatingsAndPos(Book newFav, ArrayList<Double> ratings) throws IOException {
         double rating = newFav.getRating();
-        int i;
-        for(i = 0; i < books.size(); i++){
-            if(rating <= books.get(i).getRating()){
-                books.add(i, newFav);
+        String currentLine;
+        File file = new File("read.txt");
+        Scanner fileReader = new Scanner(file);
+
+        while (fileReader.hasNextLine()){
+            currentLine = fileReader.nextLine();
+            currentLine = currentLine.substring(0, 3);
+            ratings.add(Double.parseDouble(currentLine));
+        }
+        for(int i = 0; i < ratings.size();i++){
+            if(rating > ratings.get(i)){
+                addToRead(i, newFav);
+                return;
             }
         }
-        books.removeLast();
 
-        for(int j = 0; j < 10; j++){
-            arr[j] = books.get(j);
-        }
-        displayTopTen(i,newFav);
     }
 
-    public static void displayTopTen(int pos, Book newBook) throws IOException {
-        Path path = Paths.get("C:\\Users\\Ameya\\IdeaProjects\\LibraryProject\\topTen.txt");
+    public static void addToRead(int pos, Book newBook) throws IOException {
+        Path path = Paths.get("C:\\Users\\Ameya\\IdeaProjects\\LibraryProject\\read.txt");
         List<String> lines = Files.readAllLines(path, StandardCharsets.UTF_8);
-
-        //int position = pos;
-        //String extraLine = "This is an extraline";
 
         lines.add(pos, String.valueOf(newBook));
         Files.write(path, lines, StandardCharsets.UTF_8);
+
     }
 }

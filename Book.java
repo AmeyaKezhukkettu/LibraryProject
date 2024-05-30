@@ -18,6 +18,7 @@ public class Book {
         this.author = author;
         this.type = type;
         this.pages = pages;
+        this.rating = -23;
     }
 
     public String getTitle(){
@@ -37,6 +38,11 @@ public class Book {
     }
 
     public String toString(){
-        return title + " is a " + type + " by " + author + " with " + pages + " pages";
+        if(rating == -23) {
+            return title + " is a " + type + " by " + author + " with " + pages + " pages";
+        }
+        else{
+            return rating + ": " + title + " is a " + type + " by " + author + " with " + pages + " pages";
+        }
     }
 }
