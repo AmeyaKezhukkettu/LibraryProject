@@ -103,7 +103,9 @@ public class Main {
                 int numPages = input.nextInt();
 
                 System.out.println("Rating:");
-                double rating = input.nextFloat();
+                double rating = input.nextFloat()*10;
+                int r = (int)rating;
+                rating = (r + 0.0)/10;
 
                 Book myBook;
 
