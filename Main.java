@@ -5,11 +5,15 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.io.*;
 import java.nio.*;
+
+/**
+ *
+ */
 public class Main {
 
     public static void main(String args[]) throws IOException {
         //System.out.println("This is my final project!");
-        boolean done = false;
+        boolean done = false; //makes it keep running until user quits
         while(!done) {
             Scanner input = new Scanner(System.in);
 
@@ -50,7 +54,7 @@ public class Main {
                     done = true;
                     break;
                 }
-                if (userChoice != 1 && userChoice != 2 && userChoice != 3) {
+                if (userChoice != 1 && userChoice != 2 && userChoice != 3) { //just incase they're dumb
                     System.out.println("That wasn't an option, you should try again");
                 }
             }
@@ -75,13 +79,14 @@ public class Main {
 
                 Book myBook;
 
-                if(trope.equals("")){
+                if(trope.equals("")){ //if trope isn't provided, then assume its a regular book
                     myBook = new Fiction(title, author, type, trope, numPages);
                 }
                 else{
                     myBook = new Book(title, author, type, numPages);
                 }
 
+                //use filewriter and add
                 FileWriter fWriter = new FileWriter("C:\\Users\\Ameya\\IdeaProjects\\LibraryProject\\tbr.txt", true);
                 fWriter.write(String.valueOf(myBook) + "\n");
                 fWriter.close();
@@ -103,13 +108,14 @@ public class Main {
                 int numPages = input.nextInt();
 
                 System.out.println("Rating:");
+                //shenenigans to round
                 double rating = input.nextFloat()*10;
                 int r = (int)rating;
                 rating = (r + 0.0)/10;
 
                 Book myBook;
 
-            if(trope.equals("")){
+            if(trope.equals("")){ // same thing, if trope isn't given then its a regular book
                 myBook = new Fiction(title, author, type, trope, numPages);
             }
             else{
@@ -122,6 +128,7 @@ public class Main {
 
                 getReadRatingsAndPos(myBook, read);
             } else if (userAction.equals("accessTBR")) {
+                //using file reader to access contents of file
                 File file = new File("tbr.txt");
                 Scanner fileReader = new Scanner(file);
 
@@ -129,6 +136,7 @@ public class Main {
                     System.out.println(fileReader.nextLine());
                 }
             } else if (userAction.equals("accessRead")) {
+                //same here
                 File file = new File("read.txt");
                 Scanner fileReader = new Scanner(file);
 
@@ -139,6 +147,13 @@ public class Main {
         }
 
     }
+
+    /**
+     *
+     * @param newFav
+     * @param ratings
+     * @throws IOException
+     */
     public static void getReadRatingsAndPos(Book newFav, ArrayList<Double> ratings) throws IOException {
         double rating = newFav.getRating();
         String currentLine;
@@ -146,10 +161,14 @@ public class Main {
         Scanner fileReader = new Scanner(file);
 
         while (fileReader.hasNextLine()){
+            //iterates through file line by line
             currentLine = fileReader.nextLine();
+            //stores 1st 3 characters of each line (the rating)
             currentLine = currentLine.substring(0, 3);
+            //adds rating to double array
             ratings.add(Double.parseDouble(currentLine));
         }
+        //decides where to insert new line
         for(int i = 0; i < ratings.size();i++){
             if(rating > ratings.get(i)){
                 addToRead(i, newFav);
@@ -158,6 +177,13 @@ public class Main {
         }
 
     }
+
+    /**
+     *
+     * @param pos
+     * @param newBook
+     * @throws IOException
+     */
 
     public static void addToRead(int pos, Book newBook) throws IOException {
         Path path = Paths.get("C:\\Users\\Ameya\\IdeaProjects\\LibraryProject\\read.txt");
