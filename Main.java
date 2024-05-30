@@ -11,7 +11,7 @@ import java.nio.*;
  */
 public class Main {
 
-    public static void main(String args[]) throws IOException {
+    public static void main(String[] args) throws IOException {
         //System.out.println("This is my final project!");
         boolean done = false; //makes it keep running until user quits
         while(!done) {
