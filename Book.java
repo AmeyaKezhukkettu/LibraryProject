@@ -20,6 +20,22 @@ public class Book {
         this.pages = pages;
     }
 
+    public String getTitle(){
+        return title;
+    }
+    public String getAuthor(){
+        return author;
+    }
+    public String getType(){
+        return type;
+    }
+    public int getPages(){
+        return pages;
+    }
+    public double getRating(){
+        return rating;
+    }
+
     public String toString(){
         return title + " is a " + type + " by " + author + " with " + pages + " pages";
     }
